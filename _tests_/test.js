@@ -59,33 +59,33 @@ it('async with skip and limit', async () => {
   const limit = 2;
 
   const filter = { order: { $lte: 10 } };
-  const sort = { order: 1, _id: 1 } ;
+  const sort = { order: 1, _id: 1 };
   const query = Model.findAndPaginate(filter, { skip, limit, sort });
-  const { docs = [], docsTotal } = await query;
+  const { docs = [], totalDocs } = await query;
   const docsJSON = Array.from(docs).map(d => d.toJSON());
 
   const expected = dataSet.filter(d => d.order <= 10)
     .slice(skip, skip + limit);
 
   expect(docsJSON).toEqual(expected);
-  expect(docsTotal).toBe(10);
+  expect(totalDocs).toBe(10);
 });
 
 it('async with page and perPage', async () => {
   const page = 3;
   const perPage = 2;
 
-  const filter = { order: { $lte: 10 } };
-  const sort = { order: 1, _id: 1 } ;
+  const filter = { order: { $lte: 11 } };
+  const sort = { order: 1, _id: 1 };
   const query = Model.findAndPaginate(filter, { page, perPage, sort });
-  const { docs = [], pageTotal } = await query;
+  const { docs = [], totalPages } = await query;
   const docsJSON = Array.from(docs).map(d => d.toJSON());
 
   const expected = dataSet.filter(d => d.order <= 10)
     .slice((page * perPage) - perPage, page * perPage);
 
   expect(docsJSON).toEqual(expected);
-  expect(pageTotal).toBe(5);
+  expect(totalPages).toBe(6);
 });
 
 it('async with chaining query methods', async () => {
@@ -93,10 +93,10 @@ it('async with chaining query methods', async () => {
   const limit = 2;
 
   const filter = { order: { $lte: 10 } };
-  const sort = { order: -1, _id: 1 } ;
+  const sort = { order: -1, _id: 1 };
   const query = Model.findAndPaginate(filter, { skip, limit, sort })
     .select('name');
-  const { docs = [], docsTotal } = await query;
+  const { docs = [], totalDocs } = await query;
   const docsJSON = Array.from(docs).map(d => d.toJSON());
 
   const expected = dataSet.filter(d => d.order <= 10)
@@ -105,5 +105,5 @@ it('async with chaining query methods', async () => {
     .slice(skip, skip + limit);
 
   expect(docsJSON).toEqual(expected);
-  expect(docsTotal).toBe(10);
+  expect(totalDocs).toBe(10);
 });
