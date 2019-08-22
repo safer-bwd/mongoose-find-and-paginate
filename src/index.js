@@ -1,4 +1,4 @@
-module.exports = (schema) => {
+export default (schema) => {
   const calculatePagination = (pagination) => {
     const {
       skip,
@@ -6,7 +6,7 @@ module.exports = (schema) => {
       limit,
       page,
       perPage = 0,
-      sort = '_id'
+      sort
     } = pagination || {};
 
     const calculatedLimit = page ? perPage : limit;
@@ -19,7 +19,7 @@ module.exports = (schema) => {
       : skip || offset;
 
     return {
-      sort,
+      sort: '_id',
       limit: calculatedLimit,
       skip: calculatedSkip
     };
@@ -41,6 +41,7 @@ module.exports = (schema) => {
 
     query.exec = async (cb) => {
       let queryResults;
+      
       try {
         queryResults = await Promise.all([
           originalExec(),
@@ -56,6 +57,7 @@ module.exports = (schema) => {
 
       const [docs, totalDocs] = queryResults;
       const totalPages = limit ? Math.ceil(totalDocs / limit) : 1;
+      // TODO: callback
       return { docs, totalDocs, totalPages };
     };
 
