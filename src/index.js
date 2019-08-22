@@ -14,7 +14,8 @@ module.exports = (schema) => {
       return { sort };
     }
 
-    const calculatedSkip = page ? (page * perPage) - perPage
+    const calculatedSkip = page
+      ? (page * perPage) - perPage
       : skip || offset;
 
     return {
