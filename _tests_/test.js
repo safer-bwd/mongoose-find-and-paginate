@@ -59,8 +59,8 @@ it('async with skip and limit', async () => {
   const limit = 2;
 
   const filter = { order: { $lte: 10 } };
-  const options = { sort: { order: 1, _id: 1 } };
-  const query = Model.findAndPaginate(filter, { skip, limit }, options);
+  const sort = { order: 1, _id: 1 } ;
+  const query = Model.findAndPaginate(filter, { skip, limit, sort });
   const { docs = [], docsTotal } = await query;
   const docsJSON = Array.from(docs).map(d => d.toJSON());
 
@@ -76,8 +76,8 @@ it('async with page and perPage', async () => {
   const perPage = 2;
 
   const filter = { order: { $lte: 10 } };
-  const options = { sort: { order: 1, _id: 1 } };
-  const query = Model.findAndPaginate(filter, { page, perPage }, options);
+  const sort = { order: 1, _id: 1 } ;
+  const query = Model.findAndPaginate(filter, { page, perPage, sort });
   const { docs = [], pageTotal } = await query;
   const docsJSON = Array.from(docs).map(d => d.toJSON());
 
@@ -88,18 +88,19 @@ it('async with page and perPage', async () => {
   expect(pageTotal).toBe(5);
 });
 
-it('async with chaining query methods ', async () => {
+it('async with chaining query methods', async () => {
   const skip = 1;
   const limit = 2;
 
   const filter = { order: { $lte: 10 } };
-  const options = { sort: { order: 1, _id: 1 } };
-  const query = Model.findAndPaginate(filter, { skip, limit }, options)
+  const sort = { order: -1, _id: 1 } ;
+  const query = Model.findAndPaginate(filter, { skip, limit, sort })
     .select('name');
   const { docs = [], docsTotal } = await query;
   const docsJSON = Array.from(docs).map(d => d.toJSON());
 
   const expected = dataSet.filter(d => d.order <= 10)
+    .reverse()
     .map(({ name }) => ({ name }))
     .slice(skip, skip + limit);
 
