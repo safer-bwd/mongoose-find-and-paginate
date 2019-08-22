@@ -34,7 +34,7 @@ beforeEach(async () => {
   schema.set('toJSON', {
     virtuals: false,
     versionKey: false,
-    /*eslint-disable */
+    /* eslint-disable */
     transform: (doc, ret) => {
       delete ret._id;
       return ret;
