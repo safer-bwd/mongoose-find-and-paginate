@@ -19,7 +19,7 @@ export default (schema) => {
       : skip || offset;
 
     return {
-      sort: '_id',
+      sort: sort || '_id',
       limit: calculatedLimit,
       skip: calculatedSkip
     };
