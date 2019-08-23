@@ -1,5 +1,5 @@
 export default (schema) => {
-  const calculatePagination = (pagination) => {
+  const getPaginationParams = (options) => {
     const {
       skip,
       offset,
@@ -7,7 +7,7 @@ export default (schema) => {
       page,
       perPage = 0,
       sort
-    } = pagination || {};
+    } = options;
 
     const calculatedLimit = page ? perPage : limit;
     if (!calculatedLimit) {
@@ -25,12 +25,13 @@ export default (schema) => {
     };
   };
 
-  function findAndPaginate(conditions, pagination, options, callback) {
+  function findAndPaginate(conditions, options, callback) {
     const Model = this;
 
-    const { limit, skip, sort } = calculatePagination(pagination);
+    const opts = options || {};
+    const { limit, skip, sort } = getPaginationParams(opts);
     const query = Model.find(conditions, null, {
-      ...options,
+      ...opts,
       limit,
       skip,
       sort

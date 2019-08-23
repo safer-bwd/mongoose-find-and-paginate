@@ -120,9 +120,9 @@ it('with callback, skip and limit', (done) => {
 
   const filter = { order: { $lte: 5 } };
   const sort = { order: 1, _id: 1 };
-  const pagination = { skip, limit, sort };
+  const options = { skip, limit, sort };
 
-  Model.findAndPaginate(filter, pagination, null, (err, result) => {
+  Model.findAndPaginate(filter, options, (err, result) => {
     const { docs, totalDocs } = result;
     expect(docsToArray(docs)).toEqual(expected);
     expect(totalDocs).toBe(5);
@@ -139,9 +139,9 @@ it('with callback, page and perPage', (done) => {
 
   const filter = { order: { $lte: 10 } };
   const sort = { order: 1, _id: 1 };
-  const pagination = { page, perPage, sort };
+  const options = { page, perPage, sort };
 
-  Model.findAndPaginate(filter, pagination, null, (err, result) => {
+  Model.findAndPaginate(filter, options, (err, result) => {
     const { docs, totalPages } = result;
     expect(docsToArray(docs)).toEqual(expected);
     expect(totalPages).toBe(4);
