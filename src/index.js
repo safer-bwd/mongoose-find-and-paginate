@@ -10,10 +10,6 @@ export default (schema) => {
     } = options;
 
     const calculatedLimit = page ? perPage : limit;
-    if (!calculatedLimit) {
-      return { sort };
-    }
-
     const calculatedSkip = page
       ? (page * perPage) - perPage
       : skip || offset;
