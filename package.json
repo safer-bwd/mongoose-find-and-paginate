@@ -1,7 +1,7 @@
 {
   "name": "mongoose-find-and-paginate",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.1.0",
+  "description": "A mongoose plugin for a pagination",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
