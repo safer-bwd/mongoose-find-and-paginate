@@ -41,7 +41,7 @@ export default (schema) => {
 
     query.exec = async (cb) => {
       let queryResults;
-      
+
       try {
         queryResults = await Promise.all([
           originalExec(),
@@ -57,8 +57,13 @@ export default (schema) => {
 
       const [docs, totalDocs] = queryResults;
       const totalPages = limit ? Math.ceil(totalDocs / limit) : 1;
-      // TODO: callback
-      return { docs, totalDocs, totalPages };
+      const result = { docs, totalDocs, totalPages };
+
+      if (cb) {
+        cb(null, result);
+      }
+
+      return result;
     };
 
     if (callback) {
