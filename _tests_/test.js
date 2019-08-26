@@ -22,13 +22,7 @@ beforeAll(async () => {
     useCreateIndex: true,
     useFindAndModify: false
   });
-});
 
-afterAll(async () => {
-  await mongoose.disconnect();
-});
-
-beforeEach(async () => {
   const schema = new mongoose.Schema({
     name: String,
     order: Number
@@ -47,14 +41,13 @@ beforeEach(async () => {
 
   schema.plugin(findAndPaginate);
   Model = mongoose.model('Model', schema);
-
   const promises = dataSet.map(data => new Model(data).save());
   await Promise.all(promises);
 });
 
-afterEach(async () => {
-  delete mongoose.models.Model;
+afterAll(async () => {
   await mongoose.connection.dropDatabase();
+  await mongoose.disconnect();
 });
 
 it('async with skip and limit', async () => {
@@ -89,7 +82,7 @@ it('async with page and perPage', async () => {
   expect(totalPages).toBe(6);
 });
 
-it('async and chaining query methods', async () => {
+it('async and chaining methods', async () => {
   const skip = 1;
   const limit = 2;
 
@@ -149,7 +142,7 @@ it('with callback, page and perPage', (done) => {
   });
 });
 
-it('callback and chaining query methods', (done) => {
+it('callback and chaining methods', (done) => {
   const skip = 1;
   const limit = 2;
 
