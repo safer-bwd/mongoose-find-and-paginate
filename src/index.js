@@ -46,7 +46,7 @@ function findAndPaginate(filter, options, callback) {
   });
 
   const originalExec = query.exec.bind(query);
-  const countQuery = Model.find(conditions).countDocuments();
+  const countQuery = Model.find(filter).countDocuments();
 
   query.exec = async (cb) => {
     let queryResults;
