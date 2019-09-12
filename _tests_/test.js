@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const findAndPaginate = require('../src');
+import mongoose from 'mongoose';
+import findAndPaginatePlugin from '../src';
 
 let Model;
 
@@ -20,7 +20,8 @@ beforeAll(async () => {
     } : null,
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useUnifiedTopology: true
   });
 
   const schema = new mongoose.Schema({
@@ -39,7 +40,7 @@ beforeAll(async () => {
     /* eslint-enable */
   });
 
-  schema.plugin(findAndPaginate);
+  schema.plugin(findAndPaginatePlugin);
   Model = mongoose.model('Model', schema);
   const promises = dataSet.map(data => new Model(data).save());
   await Promise.all(promises);
