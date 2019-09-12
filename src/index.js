@@ -20,12 +20,25 @@ const calcPaginationParams = (options) => {
   };
 };
 
-function findAndPaginate(conditions, options, callback) {
+/**
+ * @function findAndPaginate
+ * @param {Object} filter The query filter
+ * @param {Object} options The query options
+ * @param {Function} callback
+ * @return {Promise<findAndPaginateResult>}
+ */
+/**
+ * @typedef {Object} findAndPaginateResult
+ * @property {Array} docs
+ * @property {number} totalDocs
+ * @property {number} totalPages
+ */
+function findAndPaginate(filter, options, callback) {
   const Model = this;
 
   const opts = options || {};
   const { limit, skip, sort } = calcPaginationParams(opts);
-  const query = Model.find(conditions, null, {
+  const query = Model.find(filter, null, {
     ...opts,
     limit,
     skip,
