@@ -79,5 +79,5 @@ const query = Model
   .populate(...)
   .select(...);
 
-const { docs, totalPages }  = await query.exec();
+const { docs, totalPages } = await query.exec();
 ```
