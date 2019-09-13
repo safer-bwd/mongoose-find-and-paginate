@@ -21,7 +21,7 @@ npm install mongoose-find-and-paginate --save
 -   `filter` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The filter
 -   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The [Mongoose.Query options](https://mongoosejs.com/docs/api.html#query_Query-setOptions). Used for pagination:
     -   `options.page` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The page number (optional).
-    -   `options.perPage` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of documents on page (optional). Used only if the `page` is not set.
+    -   `options.perPage` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of documents on page (optional).
     -   `options.skip` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of documents to skip (optional). Used only if the `page` is not set.
     -   `options.offset` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Alias for `skip` (optional). Used only if the `page` is not set.
     -   `options.limit` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Maximum number of documents (optional). Used only if the `page` is not set.
