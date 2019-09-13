@@ -18,24 +18,30 @@ npm install mongoose-find-and-paginate --save
 
 #### Parameters
 
--   `filter` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The query filter
--   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The query options
+-   `filter` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The filter
+-   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The [Mongoose.Query options](https://mongoosejs.com/docs/api.html#query_Query-setOptions). Used for pagination:
+    -   `options.page` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The page number (optional).
+    -   `options.perPage` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of documents on page (optional). Used only if the `page` is not set.
+    -   `options.skip` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of documents to skip (optional). Used only if the `page` is not set.
+    -   `options.offset` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Alias for `skip` (optional). Used only if the `page` is not set.
+    -   `options.limit` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Maximum number of documents (optional). Used only if the `page` is not set.
 -   `callback` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** 
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[findAndPaginateResult](#findandpaginateresult)>** 
+Returns **[Mongoose.Query](https://mongoosejs.com/docs/api/query.html)&lt;[QueryResult](#queryresult)&gt;** 
 
-### findAndPaginateResult
+### QueryResult
 
 Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)
 
 #### Properties
 
--   `docs` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** 
--   `totalDocs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `totalPages` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+-   `docs` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Mongoose.Document](https://mongoosejs.com/docs/api/document.html)&gt;** The Array of documents
+-   `totalDocs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Total number of documents that match a query
+-   `totalPages` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Total number of pages
 
 ## Usage
 
+#### Add plugin
 ```javascript
 import mongoose from 'mongoose';
 import findAndPaginatePlugin from 'mongoose-find-and-paginate';
@@ -45,6 +51,7 @@ schema.plugin(findAndPaginatePlugin);
 const Model = mongoose.model('Model', schema);
 ```
 
+#### Use skip(offset) & limit
 ```javascript
 const filter = { ... };
 const { docs, totalDocs } = await Model.findAndPaginate(filter, {
@@ -54,6 +61,7 @@ const { docs, totalDocs } = await Model.findAndPaginate(filter, {
 });
 ```
 
+#### Use page & perPage
 ```javascript
 const filter = { ... };
 const { docs, totalPages } = await Model.findAndPaginate(filter, {
@@ -61,4 +69,12 @@ const { docs, totalPages } = await Model.findAndPaginate(filter, {
   perPage: 5,
   sort: '_id'
 });
+```
+
+#### Use with Mongoose.Query methods
+```javascript
+const filter = { ... };
+const { docs, totalPages } = await Model.findAndPaginate(filter, { page: 3, perPage: 5 })
+  .populate(...)
+  .select(...);
 ```

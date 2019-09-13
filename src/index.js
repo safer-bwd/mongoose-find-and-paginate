@@ -20,19 +20,6 @@ const calcPaginationParams = (options) => {
   };
 };
 
-/**
- * @function findAndPaginate
- * @param {Object} filter The query filter
- * @param {Object} options The query options
- * @param {Function} callback
- * @return {Promise<findAndPaginateResult>}
- */
-/**
- * @typedef {Object} findAndPaginateResult
- * @property {Array} docs
- * @property {number} totalDocs
- * @property {number} totalPages
- */
 function findAndPaginate(filter, options, callback) {
   const Model = this;
 
