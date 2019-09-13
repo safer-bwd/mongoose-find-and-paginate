@@ -74,7 +74,10 @@ const { docs, totalPages } = await Model.findAndPaginate(filter, {
 #### Use with Mongoose.Query methods
 ```javascript
 const filter = { ... };
-const { docs, totalPages } = await Model.findAndPaginate(filter, { page: 3, perPage: 5 })
+const query = Model
+  .findAndPaginate(filter, { page: 3, perPage: 5 })
   .populate(...)
   .select(...);
+
+const { docs, totalPages }  = await query.exec();
 ```
